@@ -1,9 +1,7 @@
-import express from "express"
 import { sql } from "../config/db.js";
 
-const router = express.Router();
+export async function getTransactionsByUserId(req,res){
 
-router.get("/:userId",async(req,res)=>{
     try {
         const {userId} =req.params; 
         const transactions= await sql`
@@ -13,9 +11,10 @@ router.get("/:userId",async(req,res)=>{
         console.log("error in getting transactions",error)
         res.status(500).json({message:"internal server error"})
     }
-});
 
-router.delete("/:id",async(req,res)=>{
+}
+
+export async function createTransaction (req,res){
     try {
         const {id} = req.params;
         if(isNaN(parseInt(id))){
@@ -33,9 +32,9 @@ router.delete("/:id",async(req,res)=>{
          console.log("error in deleting transactions",error)
         res.status(500).json({message:"internal server error"})
     }
-})
+}
 
-router.post("/",async(req,res)=>{
+export async function deleteTransaction(req,res){
 
     try {
         const {title,amount,category,user_id} = req.body;
@@ -55,9 +54,9 @@ router.post("/",async(req,res)=>{
         console.log("error in transaction",error)
         res.status(500).json({message:"internal server error"})
     }
-});
+}
 
-router.get("/summary/:userId", async(req,res)=>{
+export async function getSummarybyId(req,res){
     try {
         const {userId} = req.params;
 
@@ -83,7 +82,4 @@ router.get("/summary/:userId", async(req,res)=>{
         console.log("error in transaction summary",error)
         res.status(500).json({message:"internal server error"})
     }
-})
-
-export default router;
-
+}
